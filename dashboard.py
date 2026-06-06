@@ -125,7 +125,7 @@ COLORS = {
 # ── Data loading ─────────────────────────────────────────────
 @st.cache_data(show_spinner="Loading data…")
 def load_data():
-    df = pd.read_csv("DataCo_Enriched_Final.zip", encoding="latin-1")
+    df = pd.read_csv("data/DataCo_Enriched_Final.zip", encoding="latin-1")
     df["order_date"] = pd.to_datetime(df["order date (DateOrders)"], errors="coerce")
     df["order_month"] = df["order_date"].dt.to_period("M").astype(str)
     df["order_year"]  = df["order_date"].dt.year
@@ -141,12 +141,39 @@ with st.sidebar:
     st.markdown("**DataCo Analytics Dashboard**")
     st.markdown("---")
 
+    st.markdown('<div class="filter-title">User Profile / Role</div>', unsafe_allow_html=True)
+    role = st.radio(
+        label="role",
+        options=["General (All)", "Direction", "Opérations", "Marketing"],
+        label_visibility="collapsed",
+    )
+
     st.markdown('<div class="filter-title">View</div>', unsafe_allow_html=True)
+
+    role_pages = {
+    "General (All)": [
+        "🏠 Executive Overview",
+        "🚚 Shipping Analysis",
+        "🌍 Regional Performance",
+        "🤖 Model Insights",
+        "🎯 A/B Test & Recommendations",
+    ],
+    "Direction":  [
+        "🏠 Executive Overview",
+        "🎯 A/B Test & Recommendations",
+    ],
+    "Opérations": [
+        "🚚 Shipping Analysis",
+        "🤖 Model Insights",
+    ],
+    "Marketing":  [
+        "🌍 Regional Performance",
+    ],
+    }
+    
     page = st.radio(
         label="page",
-        options=["🏠 Executive Overview", "🚚 Shipping Analysis",
-                 "🌍 Regional Performance", "🤖 Model Insights",
-                 "🎯 A/B Test & Recommendations"],
+        options=role_pages[role],
         label_visibility="collapsed",
     )
 
@@ -173,7 +200,6 @@ with st.sidebar:
     )
 
     st.markdown("---")
-    st.caption("📅 Deadline: 07 Jun 2026")
 
 # ── Filter ───────────────────────────────────────────────────
 df = df_raw.copy()
