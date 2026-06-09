@@ -646,12 +646,13 @@ elif page == "🎯 A/B Test & Recommendations":
 
     st.markdown("---")
 
+    
     # REC 1
     st.markdown("### 🥇 Recommendation 1 — Upgrade Standard Class for High-Value Orders")
     r1c1, r1c2 = st.columns([2,1])
     with r1c1:
-        std_l  = df[df["Shipping Mode"]=="Standard Class"]["is_late"].mean()
-        fc_l   = df[df["Shipping Mode"]=="First Class"]["is_late"].mean() if "First Class" in df["Shipping Mode"].values else 0.2
+        std_l  = df_raw[df_raw["Shipping Mode"]=="Standard Class"]["is_late"].mean()
+        fc_l   = df_raw[df_raw["Shipping Mode"]=="First Class"]["is_late"].mean()
         est_r1 = hv_orders * abs(gap_val) * 0.08
         st.markdown(f"""<div class="insight-box">
         <strong>Action:</strong> Auto-upgrade orders with Benefit &gt; $200 from Standard Class to First Class.<br><br>
