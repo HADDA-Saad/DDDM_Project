@@ -402,8 +402,8 @@ elif page == "🚚 Shipping Analysis":
 
     # Rec box
     st.markdown('<div class="section-header">📌 Recommendation 1</div>', unsafe_allow_html=True)
-    std_late = df[df["Shipping Mode"]=="Standard Class"]["is_late"].mean()
-    fc_late  = df[df["Shipping Mode"]=="First Class"]["is_late"].mean() if "First Class" in df["Shipping Mode"].values else 0
+    std_late = df_raw[df_raw["Shipping Mode"]=="Standard Class"]["is_late"].mean()
+    fc_late  = df_raw[df_raw["Shipping Mode"]=="First Class"]["is_late"].mean()
     affected = len(df[(df["Shipping Mode"]=="Standard Class") & (df["high_value"]==1)])
     gap_val  = df[df["is_late"]==0]["Benefit per order"].mean() - df[df["is_late"]==1]["Benefit per order"].mean()
     est_gain = affected * gap_val * 0.08
